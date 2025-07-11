@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { fetchAPI, getAuthHeaders } from '@/lib/api';
 import { Video, ApiResponse } from '@/lib/types';
+import { getInstagramEmbedUrl } from '@/lib/utils';
 
 export default function VideosPage() {
   const { user } = useAuth();
@@ -59,10 +60,10 @@ export default function VideosPage() {
 
   const getLiftTypeColor = (liftType: string) => {
     switch (liftType) {
-      case 'bench': return 'bg-red-100 text-red-800';
-      case 'squat': return 'bg-blue-100 text-blue-800';
-      case 'deadlift': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'bench': return 'bg-destructive/10 text-destructive';
+      case 'squat': return 'bg-primary/10 text-primary';
+      case 'deadlift': return 'bg-accent text-accent-foreground';
+      default: return 'bg-muted text-muted-foreground';
     }
   };
 
@@ -78,14 +79,14 @@ export default function VideosPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">Videos 🎥</h1>
-        <p className="text-gray-600">Watch lift videos from the community</p>
+        <h1 className="text-3xl font-bold text-foreground mb-4">Videos 🎥</h1>
+        <p className="text-muted-foreground">Watch lift videos from the community</p>
       </div>
 
       {/* Filter by User */}
       <div className="mb-6">
         <div className="flex flex-wrap gap-2 items-center">
-          <label htmlFor="userFilter" className="text-sm font-medium text-gray-700">
+          <label htmlFor="userFilter" className="text-sm font-medium text-foreground">
             Filter by user:
           </label>
           <input
@@ -94,12 +95,12 @@ export default function VideosPage() {
             value={selectedUser}
             onChange={(e) => setSelectedUser(e.target.value)}
             placeholder="Enter username..."
-            className="px-3 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="px-3 py-1 border-2 border-border text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring bg-input"
           />
           {selectedUser && (
             <button
               onClick={() => setSelectedUser('')}
-              className="text-sm text-blue-600 hover:text-blue-700 underline"
+              className="text-sm text-primary hover:text-primary/80 underline"
             >
               Clear filter
             </button>
@@ -110,39 +111,40 @@ export default function VideosPage() {
       {/* Videos Grid */}
       {isLoading ? (
         <div className="text-center py-12">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-2 text-gray-600">Loading videos...</p>
+          <div className="animate-spin h-8 w-8 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-2 text-muted-foreground">Loading videos...</p>
         </div>
       ) : error ? (
         <div className="text-center py-12">
-          <p className="text-red-600 mb-4">{error}</p>
+          <p className="text-destructive mb-4">{error}</p>
           <button
             onClick={loadVideos}
-            className="text-blue-600 hover:text-blue-700 underline"
+            className="text-primary hover:text-primary/80 underline"
           >
             Try again
           </button>
         </div>
       ) : videos.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-gray-600">
+          <p className="text-muted-foreground">
             {selectedUser ? `No videos found for user "${selectedUser}"` : 'No videos available'}
           </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {videos.map((video) => (
-            <div key={video.id} className="bg-white rounded-lg shadow-lg overflow-hidden">
-              {/* Video */}
-              <div className="aspect-video bg-gray-100">
-                <video
-                  controls
-                  className="w-full h-full object-cover"
-                  poster={`data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225"><rect width="400" height="225" fill="#f3f4f6"/><text x="200" y="120" text-anchor="middle" fill="#6b7280" font-size="16">Video</text></svg>')}`}
-                >
-                  <source src={video.video_url} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
+            <div key={video.id} className="bg-card border-2 border-border overflow-hidden">
+              {/* Instagram Embed */}
+              <div className="aspect-video bg-muted">
+                <iframe
+                  src={getInstagramEmbedUrl(video.video_url)}
+                  className="w-full h-full border-0"
+                  frameBorder="0"
+                  scrolling="no"
+                  allowTransparency={true}
+                  allow="encrypted-media"
+                  title={`Instagram post by ${video.username}`}
+                />
               </div>
 
               {/* Video Info */}
@@ -150,9 +152,9 @@ export default function VideosPage() {
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center space-x-2">
                     <span className="text-lg">{video.flag}</span>
-                    <span className="font-medium text-gray-900">{video.username}</span>
+                    <span className="font-medium text-card-foreground">{video.username}</span>
                     {video.team && (
-                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                      <span className="text-xs bg-secondary text-secondary-foreground px-2 py-1 border border-border">
                         {video.team}
                       </span>
                     )}
@@ -160,7 +162,7 @@ export default function VideosPage() {
                   {user && user.username === video.username && (
                     <button
                       onClick={() => deleteVideo(video.id)}
-                      className="text-red-600 hover:text-red-700 text-sm"
+                      className="text-destructive hover:text-destructive/80 text-sm"
                       title="Delete video"
                     >
                       🗑️
@@ -171,19 +173,19 @@ export default function VideosPage() {
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center space-x-2">
                     <span className="text-lg">{getLiftTypeEmoji(video.lift_type)}</span>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getLiftTypeColor(video.lift_type)}`}>
+                    <span className={`px-2 py-1 text-xs font-medium border border-border ${getLiftTypeColor(video.lift_type)}`}>
                       {video.lift_type.toUpperCase()}
                     </span>
                   </div>
                   <div className="text-right">
-                    <div className="text-lg font-bold text-gray-900">{video.weight}kg</div>
+                    <div className="text-lg font-bold text-card-foreground">{video.weight}kg</div>
                     {video.dots_score && (
-                      <div className="text-xs text-gray-500">DOTS: {video.dots_score.toFixed(1)}</div>
+                      <div className="text-xs text-muted-foreground">DOTS: {video.dots_score.toFixed(1)}</div>
                     )}
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between text-sm text-gray-500">
+                <div className="flex items-center justify-between text-sm text-muted-foreground">
                   <span>ELO: {video.elo}</span>
                   <span>{new Date(video.created_at).toLocaleDateString()}</span>
                 </div>

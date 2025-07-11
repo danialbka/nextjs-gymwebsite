@@ -30,27 +30,27 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="bg-white shadow-lg border-b-2 border-blue-500">
+    <nav className="bg-card border-b-2 border-border">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link 
             href="/" 
-            className="text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors"
+            className="text-2xl font-bold text-foreground hover:text-primary transition-colors"
           >
             💪 GymRank
           </Link>
 
           {/* Navigation Items */}
-          <div className="hidden md:flex space-x-8">
+          <div className="hidden md:flex space-x-1">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-4 py-2 text-sm font-medium transition-colors ${
                   isActive(item.href)
-                    ? 'text-blue-600 bg-blue-50 border-b-2 border-blue-600'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                    ? 'bg-primary text-primary-foreground'
+                    : 'text-foreground hover:bg-muted'
                 }`}
               >
                 {item.label}
@@ -62,12 +62,12 @@ export default function Navigation() {
           <div className="flex items-center space-x-4">
             {user ? (
               <>
-                <span className="text-sm text-gray-600">
-                  Welcome, <span className="font-medium">{user.display_name || user.username}</span>
+                <span className="text-sm text-muted-foreground">
+                  Welcome, <span className="font-medium text-foreground">{user.display_name || user.username}</span>
                 </span>
                 <button
                   onClick={logout}
-                  className="bg-red-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-red-600 transition-colors"
+                  className="bg-destructive text-destructive-foreground px-4 py-2 text-sm font-medium hover:bg-destructive/90 transition-colors"
                 >
                   Logout
                 </button>
@@ -76,13 +76,13 @@ export default function Navigation() {
               <div className="space-x-2">
                 <Link
                   href="/auth/login"
-                  className="text-blue-600 hover:text-blue-700 px-3 py-2 text-sm font-medium"
+                  className="text-foreground hover:text-primary px-3 py-2 text-sm font-medium"
                 >
                   Login
                 </Link>
                 <Link
                   href="/auth/register"
-                  className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition-colors"
+                  className="bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:bg-primary/90 transition-colors"
                 >
                   Register
                 </Link>
@@ -92,7 +92,7 @@ export default function Navigation() {
 
           {/* Mobile menu button */}
           <div className="md:hidden">
-            <button className="text-gray-700 hover:text-blue-600">
+            <button className="text-foreground hover:text-primary">
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>

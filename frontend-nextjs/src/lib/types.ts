@@ -136,7 +136,7 @@ export interface PRSubmissionForm {
   username: string;
   lift_type: 'bench' | 'deadlift' | 'squat';
   weight: number;
-  video: File | null;
+  instagram_url: string;
 }
 
 export interface PRSubmissionRequest {

@@ -79,3 +79,22 @@ export function validateEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 }
+
+export function getInstagramEmbedUrl(url: string): string {
+  // Convert Instagram URL to embed format
+  // From: https://www.instagram.com/p/POST_ID/
+  // To: https://www.instagram.com/p/POST_ID/embed/
+  
+  try {
+    const urlObj = new URL(url);
+    const pathSegments = urlObj.pathname.split('/').filter(Boolean);
+    
+    if (pathSegments.length >= 2 && (pathSegments[0] === 'p' || pathSegments[0] === 'reel' || pathSegments[0] === 'tv')) {
+      return `https://www.instagram.com/${pathSegments[0]}/${pathSegments[1]}/embed/`;
+    }
+    
+    return url; // Return original if can't parse
+  } catch {
+    return url; // Return original if invalid URL
+  }
+}

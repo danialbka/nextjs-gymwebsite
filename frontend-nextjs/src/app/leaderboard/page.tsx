@@ -52,39 +52,39 @@ export default function LeaderboardPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">Leaderboard 🏆</h1>
-        <p className="text-gray-600">See how you rank against other lifters</p>
+        <h1 className="text-3xl font-bold text-foreground mb-4">Leaderboard 🏆</h1>
+        <p className="text-muted-foreground">See how you rank against other lifters</p>
       </div>
 
       {/* Gender Filter */}
       <div className="mb-6">
-        <div className="flex space-x-2">
+        <div className="bg-muted border-2 border-border p-1 flex space-x-1 w-fit">
           <button
             onClick={() => setGenderFilter('all')}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+            className={`px-4 py-2 text-sm font-medium transition-colors ${
               genderFilter === 'all'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                ? 'bg-primary text-primary-foreground'
+                : 'text-foreground hover:bg-accent'
             }`}
           >
             All
           </button>
           <button
             onClick={() => setGenderFilter('male')}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+            className={`px-4 py-2 text-sm font-medium transition-colors ${
               genderFilter === 'male'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                ? 'bg-primary text-primary-foreground'
+                : 'text-foreground hover:bg-accent'
             }`}
           >
             Male
           </button>
           <button
             onClick={() => setGenderFilter('female')}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+            className={`px-4 py-2 text-sm font-medium transition-colors ${
               genderFilter === 'female'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                ? 'bg-primary text-primary-foreground'
+                : 'text-foreground hover:bg-accent'
             }`}
           >
             Female
@@ -93,75 +93,75 @@ export default function LeaderboardPage() {
       </div>
 
       {/* Leaderboard */}
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+      <div className="bg-card border-2 border-border overflow-hidden">
         {isLoading ? (
           <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-2 text-gray-600">Loading leaderboard...</p>
+            <div className="animate-spin h-8 w-8 border-b-2 border-primary mx-auto"></div>
+            <p className="mt-2 text-muted-foreground">Loading leaderboard...</p>
           </div>
         ) : error ? (
           <div className="text-center py-12">
-            <p className="text-red-600 mb-4">{error}</p>
+            <p className="text-destructive mb-4">{error}</p>
             <button
               onClick={loadLeaderboard}
-              className="text-blue-600 hover:text-blue-700 underline"
+              className="text-primary hover:text-primary/80 underline"
             >
               Try again
             </button>
           </div>
         ) : leaderboard.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-600">No data available</p>
+            <p className="text-muted-foreground">No data available</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-muted">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                     Rank
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                     Lifter
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                     ELO
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                     DOTS
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                     Bench
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                     Squat
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                     Deadlift
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                     Total
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                     Team
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-card divide-y divide-border">
                 {leaderboard.map((user, index) => (
-                  <tr key={user.id} className={index < 3 ? 'bg-yellow-50' : 'hover:bg-gray-50'}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <tr key={`${user.id}-${index}`} className={index < 3 ? 'bg-accent' : 'hover:bg-muted'}>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-card-foreground">
                       <span className="text-lg">{getRankBadge(index + 1)}</span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <span className="text-lg mr-2">{user.flag}</span>
                         <div>
-                          <div className="text-sm font-medium text-gray-900">
+                          <div className="text-sm font-medium text-card-foreground">
                             {user.display_name || user.username}
                           </div>
                           {user.display_name && (
-                            <div className="text-sm text-gray-500">@{user.username}</div>
+                            <div className="text-sm text-muted-foreground">@{user.username}</div>
                           )}
                         </div>
                       </div>
@@ -171,23 +171,23 @@ export default function LeaderboardPage() {
                         {user.elo}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-card-foreground">
                       {user.dots_score ? user.dots_score.toFixed(1) : 'N/A'}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-card-foreground">
                       {user.bench ? `${user.bench}kg` : '-'}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-card-foreground">
                       {user.squat ? `${user.squat}kg` : '-'}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-card-foreground">
                       {user.deadlift ? `${user.deadlift}kg` : '-'}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-card-foreground">
                       {user.total_lifted}kg
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      <span className="inline-flex items-center px-2.5 py-0.5 text-xs font-medium bg-secondary text-secondary-foreground border border-border">
                         {user.team}
                       </span>
                     </td>
@@ -200,13 +200,13 @@ export default function LeaderboardPage() {
       </div>
 
       {/* Legend */}
-      <div className="mt-6 bg-gray-50 rounded-lg p-4">
-        <h3 className="text-sm font-medium text-gray-900 mb-2">ELO Ratings:</h3>
+      <div className="mt-6 bg-muted border-2 border-border p-4">
+        <h3 className="text-sm font-medium text-card-foreground mb-2">ELO Ratings:</h3>
         <div className="flex flex-wrap gap-4 text-xs">
           <span className="text-purple-600 font-bold">1500+ Elite</span>
           <span className="text-blue-600 font-semibold">1200+ Advanced</span>
           <span className="text-green-600">1000+ Intermediate</span>
-          <span className="text-gray-600">&lt;1000 Beginner</span>
+          <span className="text-muted-foreground">&lt;1000 Beginner</span>
         </div>
       </div>
     </div>

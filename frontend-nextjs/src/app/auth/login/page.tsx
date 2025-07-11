@@ -6,6 +6,10 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { fetchAPI } from '@/lib/api';
 import { LoginForm, ApiResponse, User } from '@/lib/types';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -56,74 +60,94 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <div className="mx-auto h-12 w-12 flex items-center justify-center">
-            <span className="text-4xl">💪</span>
-          </div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to GymRank
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
-            <Link href="/auth/register" className="font-medium text-blue-600 hover:text-blue-500">
-              create a new account
-            </Link>
-          </p>
-        </div>
-        
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {error && (
-            <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded">
-              {error}
+    <div className="min-h-screen bg-background flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full">
+        <Card className="bg-card border-2 border-border">
+          <CardHeader className="text-center space-y-4">
+            <div className="mx-auto w-20 h-20 bg-primary flex items-center justify-center">
+              <span className="text-4xl">💪</span>
             </div>
-          )}
+            <CardTitle className="text-3xl font-bold text-card-foreground">
+              Welcome Back!
+            </CardTitle>
+            <CardDescription className="text-muted-foreground text-lg">
+              Sign in to track your powerlifting progress
+            </CardDescription>
+          </CardHeader>
           
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                Username
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                required
-                value={formData.username}
-                onChange={handleInputChange}
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Enter your username"
-              />
-            </div>
-            
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                value={formData.password}
-                onChange={handleInputChange}
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Enter your password"
-              />
-            </div>
-          </div>
+          <CardContent className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {error && (
+                <div className="bg-destructive text-destructive-foreground px-4 py-3 border-2 border-destructive text-center font-medium">
+                  {error}
+                </div>
+              )}
+              
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="username" className="text-sm font-semibold text-card-foreground">
+                    Username
+                  </Label>
+                  <Input
+                    id="username"
+                    name="username"
+                    type="text"
+                    required
+                    value={formData.username}
+                    onChange={handleInputChange}
+                    className="h-12 text-lg border-2 border-border bg-input focus:border-ring focus:ring-ring"
+                    placeholder="Enter your username"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="password" className="text-sm font-semibold text-card-foreground">
+                    Password
+                  </Label>
+                  <Input
+                    id="password"
+                    name="password"
+                    type="password"
+                    required
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    className="h-12 text-lg border-2 border-border bg-input focus:border-ring focus:ring-ring"
+                    placeholder="Enter your password"
+                  />
+                </div>
+              </div>
 
-          <div>
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isLoading ? 'Signing in...' : 'Sign in'}
-            </button>
-          </div>
-        </form>
+              <Button
+                type="submit"
+                disabled={isLoading}
+                className="w-full h-12 text-lg font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+              >
+                {isLoading ? (
+                  <>
+                    <div className="animate-spin h-5 w-5 border-b-2 border-current mr-3"></div>
+                    Signing in...
+                  </>
+                ) : (
+                  <>
+                    🚀 Sign in
+                  </>
+                )}
+              </Button>
+            </form>
+            
+            <div className="text-center">
+              <p className="text-muted-foreground">
+                Don't have an account?{' '}
+                <Link 
+                  href="/auth/register" 
+                  className="font-semibold text-foreground hover:text-primary transition-colors"
+                >
+                  Create one here
+                </Link>
+              </p>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
